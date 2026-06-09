@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerunds & Participles Practice</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #d7dde7;
+      --paper: #fbfcfe;
+      --panel: #ffffff;
+      --accent: #126e82;
+      --accent-2: #8f4f2f;
+      --good: #16794c;
+      --bad: #b42318;
+      --warn: #a15c07;
+      --soft: #eef7f8;
+      --shadow: 0 18px 45px rgba(23, 32, 42, .11);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(18, 110, 130, .12), transparent 28rem),
+        linear-gradient(135deg, #f6fafb 0%, #fff7f1 100%);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(251, 252, 254, .92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      min-height: 76px;
+      display: grid;
+      grid-template-columns: minmax(190px, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), #23395d);
+      border-radius: 8px;
+      font-weight: 850;
+      letter-spacing: 0;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.05rem, 1.9vw, 1.45rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: .88rem;
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stats {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .stat,
+    .namebox {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 7px 10px;
+      display: grid;
+      align-content: center;
+      box-shadow: 0 7px 20px rgba(23, 32, 42, .04);
+    }
+
+    .stat {
+      min-width: 82px;
+    }
+
+    .stat b {
+      font-size: .98rem;
+      line-height: 1;
+    }
+
+    .stat span,
+    .namebox label {
+      color: var(--muted);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .namebox {
+      width: 160px;
+      padding: 4px 9px 5px;
+    }
+
+    .namebox input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      padding: 1px 0 0;
+      color: var(--ink);
+      background: transparent;
+      min-width: 0;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 28px));
+      margin: 24px auto 44px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    nav {
+      position: sticky;
+      top: 96px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .navbutton {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .82);
+      color: var(--ink);
+      cursor: pointer;
+      padding: 9px 12px;
+      text-align: left;
+    }
+
+    .navbutton:hover,
+    .navbutton.active {
+      border-color: rgba(18, 110, 130, .45);
+      background: var(--soft);
+    }
+
+    .navbutton .icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: #e9eef5;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .navbutton.active .icon {
+      background: var(--accent);
+      color: white;
+    }
+
+    .navbutton strong {
+      display: block;
+      font-size: .92rem;
+    }
+
+    .navbutton small {
+      display: block;
+      color: var(--muted);
+      font-size: .76rem;
+      margin-top: 1px;
+    }
+
+    .workspace {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grammar-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mini {
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 120px;
+    }
+
+    .mini h2 {
+      font-size: .96rem;
+      margin: 0 0 8px;
+    }
+
+    .mini p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: .9rem;
+    }
+
+    .task {
+      background: var(--panel);
+      border: 1px solid rgba(215, 221, 231, .95);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .task-head {
+      min-height: 68px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(18, 110, 130, .1), transparent 58%),
+        #fff;
+    }
+
+    .task-title {
+      min-width: 0;
+    }
+
+    .task-title h2 {
+      margin: 0;
+      font-size: 1.12rem;
+      letter-spacing: 0;
+    }
+
+    .task-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .mode-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(143, 79, 47, .25);
+      color: #713918;
+      background: #fff4eb;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: .83rem;
+      white-space: nowrap;
+    }
+
+    .task-body {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .prompt {
+      font-size: clamp(1.05rem, 2vw, 1.38rem);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .prompt .blank {
+      display: inline-block;
+      min-width: 118px;
+      border-bottom: 2px solid var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .source {
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: #f5fafb;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      align-items: start;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 13px 14px;
+      cursor: pointer;
+      min-height: 52px;
+    }
+
+    .option:hover {
+      border-color: rgba(18, 110, 130, .5);
+    }
+
+    .option input {
+      margin-top: 2px;
+      accent-color: var(--accent);
+    }
+
+    .option.correct {
+      border-color: rgba(22, 121, 76, .55);
+      background: #effaf5;
+    }
+
+    .option.wrong {
+      border-color: rgba(180, 35, 24, .5);
+      background: #fff1f0;
+    }
+
+    .answer-input,
+    textarea.answer-input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px 14px;
+      min-height: 50px;
+      outline: 0;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    textarea.answer-input {
+      resize: vertical;
+      min-height: 96px;
+      line-height: 1.45;
+    }
+
+    .answer-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(18, 110, 130, .12);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      min-height: 42px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 9px 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: #e9eef5;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .btn.warn {
+      background: #fff4eb;
+      color: #713918;
+      border-color: rgba(143, 79, 47, .25);
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .feedback {
+      display: none;
+      border-radius: 8px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      line-height: 1.5;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.good {
+      border-color: rgba(22, 121, 76, .35);
+      background: #effaf5;
+      color: #0f5132;
+    }
+
+    .feedback.bad {
+      border-color: rgba(180, 35, 24, .35);
+      background: #fff1f0;
+      color: #842029;
+    }
+
+    .feedback.hint {
+      border-color: rgba(161, 92, 7, .35);
+      background: #fff8e8;
+      color: #7a4100;
+    }
+
+    .drill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 11px;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      color: white;
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+    }
+
+    .progress-line {
+      height: 8px;
+      background: #e7ecf2;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-line span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--good));
+      transition: width .25s ease;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .review-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px 14px;
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .review-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 920px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        padding: 12px 0;
+      }
+
+      .stats {
+        justify-content: flex-start;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grammar-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topbar,
+      main {
+        width: min(100% - 18px, 1180px);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+      }
+
+      .namebox,
+      .stat {
+        width: 100%;
+      }
+
+      nav {
+        grid-template-columns: 1fr;
+      }
+
+      .task-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .task-body {
+        padding: 16px;
+      }
+
+      .drill-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark">GP</div>
+          <div>
+            <h1>Gerunds & Participles Practice</h1>
+            <div class="subtitle">LK English | Accuracy, variety, sentence quality</div>
+          </div>
+        </div>
+        <div class="stats" aria-label="Fortschritt">
+          <div class="namebox">
+            <label for="studentName">Name</label>
+            <input id="studentName" placeholder="eintragen" autocomplete="name">
+          </div>
+          <div class="stat"><span>Datum</span><b id="dateText">--</b></div>
+          <div class="stat"><span>Zeit</span><b id="timeText">--</b></div>
+          <div class="stat"><span>Gemacht</span><b id="doneText">0</b></div>
+          <div class="stat"><span>Korrekt</span><b id="correctText">0</b></div>
+          <div class="stat"><span>Quote</span><b id="rateText">0%</b></div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <nav aria-label="Aufgabentypen">
+        <button class="navbutton active" data-mode="choice">
+          <span class="icon">A</span>
+          <span><strong>Single Choice</strong><small>Form und Funktion</small></span>
+        </button>
+        <button class="navbutton" data-mode="gap">
+          <span class="icon">_</span>
+          <span><strong>Lueckentext</strong><small>passende -ing Form</small></span>
+        </button>
+        <button class="navbutton" data-mode="identify">
+          <span class="icon">?</span>
+          <span><strong>Bestimmen</strong><small>Gerund oder participle</small></span>
+        </button>
+        <button class="navbutton" data-mode="rewrite">
+          <span class="icon">R</span>
+          <span><strong>Umformen</strong><small>Satzqualitaet</small></span>
+        </button>
+        <button class="navbutton" data-mode="endless">
+          <span class="icon">E</span>
+          <span><strong>Endless Practice</strong><small>zufaellige Mischung</small></span>
+        </button>
+        <button class="navbutton" data-mode="review">
+          <span class="icon">OK</span>
+          <span><strong>Review</strong><small>Merksaetze</small></span>
+        </button>
+      </nav>
+
+      <section class="workspace">
+        <div class="grammar-strip">
+          <article class="mini">
+            <h2>Gerund</h2>
+            <p>Noun-like -ing form: subject, object, after prepositions and set expressions. Example: <strong>Reading</strong> improves style.</p>
+          </article>
+          <article class="mini">
+            <h2>Present participle</h2>
+            <p>Verb/adjective-like -ing form: reduced clauses, simultaneous actions, descriptions. Example: <strong>Walking</strong> home, she revised.</p>
+          </article>
+          <article class="mini">
+            <h2>Past participle</h2>
+            <p>-ed/third form for passive or completed meaning. Example: <strong>Written</strong> clearly, the essay convinced the reader.</p>
+          </article>
+        </div>
+
+        <article class="task">
+          <div class="task-head">
+            <div class="task-title">
+              <h2 id="taskTitle">Single Choice</h2>
+              <p id="taskSubtitle">Waehle die beste Loesung.</p>
+            </div>
+            <div class="mode-pill" id="modePill">Endless: aus</div>
+          </div>
+
+          <div class="task-body">
+            <div class="progress-line" aria-hidden="true"><span id="progressBar"></span></div>
+            <p class="source hidden" id="sourceText"></p>
+            <p class="prompt" id="promptText"></p>
+            <div id="answerArea"></div>
+            <div class="feedback" id="feedback"></div>
+            <div class="toolbar">
+              <button class="btn warn" id="hintBtn" title="Hinweis anzeigen">Hinweis</button>
+              <button class="btn primary" id="checkBtn" title="Antwort pruefen">Pruefen</button>
+              <button class="btn secondary" id="solutionBtn" title="Loesung anzeigen">Loesung</button>
+              <button class="btn secondary" id="nextBtn" title="Naechste Aufgabe">Naechste</button>
+              <button class="btn secondary" id="resetBtn" title="Fortschritt zuruecksetzen">Reset</button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const exercises = {
+      choice: [
+        {
+          prompt: "Which sentence uses a gerund as the subject?",
+          options: [
+            "Reading complex articles improves your academic vocabulary.",
+            "Reading the article, Maya underlined useful phrases.",
+            "The article, written in 2021, is still relevant.",
+            "Maya was reading when the bell rang."
+          ],
+          answer: 0,
+          hint: "A gerund can act like a noun and answer: What improves vocabulary?",
+          solution: "Reading complex articles improves your academic vocabulary. Here, 'Reading complex articles' is the subject."
+        },
+        {
+          prompt: "Choose the best completion: He apologised for ___ late.",
+          options: ["arrive", "to arrive", "arriving", "arrived"],
+          answer: 2,
+          hint: "After a preposition, English normally uses a gerund.",
+          solution: "He apologised for arriving late."
+        },
+        {
+          prompt: "Which sentence contains a present participle clause?",
+          options: [
+            "Swimming is excellent exercise.",
+            "She enjoys swimming in cold water.",
+            "Swimming across the lake, he lost track of time.",
+            "The swimmer was exhausted."
+          ],
+          answer: 2,
+          hint: "Look for an -ing phrase that adds information about an action happening at the same time.",
+          solution: "'Swimming across the lake' is a present participle clause."
+        },
+        {
+          prompt: "Choose the correct sentence.",
+          options: [
+            "Despite to study hard, he felt nervous.",
+            "Despite studying hard, he felt nervous.",
+            "Despite studied hard, he felt nervous.",
+            "Despite study hard, he felt nervous."
+          ],
+          answer: 1,
+          hint: "'Despite' is followed by a noun phrase or gerund phrase.",
+          solution: "Despite studying hard, he felt nervous."
+        },
+        {
+          prompt: "Which option shows a past participle with passive meaning?",
+          options: [
+            "Having finished the exam, she left early.",
+            "Finishing the exam, she smiled.",
+            "Finished in only two hours, the essay lacked detail.",
+            "Finishing essays can be stressful."
+          ],
+          answer: 2,
+          hint: "Ask whether the noun receives the action.",
+          solution: "'Finished in only two hours' means the essay was finished."
+        }
+      ],
+      gap: [
+        {
+          prompt: "The committee discussed ___ the deadline by two weeks.",
+          answer: ["extending"],
+          hint: "After 'discuss', use a gerund, not an infinitive.",
+          solution: "The committee discussed extending the deadline by two weeks."
+        },
+        {
+          prompt: "___ by the results, the students changed their revision strategy.",
+          answer: ["disappointed"],
+          hint: "The students felt this; use the past participle.",
+          solution: "Disappointed by the results, the students changed their revision strategy."
+        },
+        {
+          prompt: "She avoided ___ a general statement without evidence.",
+          answer: ["making"],
+          hint: "'Avoid' is followed by a gerund.",
+          solution: "She avoided making a general statement without evidence."
+        },
+        {
+          prompt: "___ more carefully, the paragraph would be easier to follow.",
+          answer: ["written"],
+          hint: "The paragraph receives the action.",
+          solution: "Written more carefully, the paragraph would be easier to follow."
+        },
+        {
+          prompt: "There is no point in ___ the same argument twice.",
+          answer: ["repeating"],
+          hint: "The expression is 'There is no point in + gerund'.",
+          solution: "There is no point in repeating the same argument twice."
+        }
+      ],
+      identify: [
+        {
+          prompt: "Identify the underlined form: 'Analysing both sources, the author reaches a balanced conclusion.'",
+          options: ["Gerund", "Present participle", "Past participle", "Finite verb"],
+          answer: 1,
+          hint: "The phrase modifies the subject and describes a simultaneous action.",
+          solution: "'Analysing both sources' is a present participle clause."
+        },
+        {
+          prompt: "Identify the -ing form: 'Arguing without evidence weakens the essay.'",
+          options: ["Gerund", "Present participle", "Past participle", "Adverb"],
+          answer: 0,
+          hint: "The -ing phrase is the subject of the sentence.",
+          solution: "'Arguing without evidence' is a gerund phrase."
+        },
+        {
+          prompt: "Identify the participle: 'Shocked by the ending, many viewers criticised the film.'",
+          options: ["Gerund", "Present participle", "Past participle", "Infinitive"],
+          answer: 2,
+          hint: "It describes how the viewers were affected.",
+          solution: "'Shocked by the ending' is a past participle phrase."
+        },
+        {
+          prompt: "Identify the -ing form: 'The rising cost of living dominates the debate.'",
+          options: ["Gerund", "Present participle used as adjective", "Past participle", "Modal verb"],
+          answer: 1,
+          hint: "It describes the noun 'cost'.",
+          solution: "'Rising' functions adjectivally as a present participle."
+        }
+      ],
+      rewrite: [
+        {
+          source: "Because she had revised the grammar rules, she wrote more confidently.",
+          prompt: "Rewrite with a participle construction.",
+          answer: ["having revised the grammar rules, she wrote more confidently"],
+          hint: "For a completed earlier action, use 'Having + past participle'.",
+          solution: "Having revised the grammar rules, she wrote more confidently."
+        },
+        {
+          source: "The article was written in a neutral style, so it sounds reliable.",
+          prompt: "Rewrite the first clause as a past participle phrase.",
+          answer: ["written in a neutral style, the article sounds reliable"],
+          hint: "Start with the past participle and keep the noun after the comma.",
+          solution: "Written in a neutral style, the article sounds reliable."
+        },
+        {
+          source: "When students practise regularly, they gain confidence.",
+          prompt: "Rewrite with a gerund phrase as the subject.",
+          answer: ["practising regularly helps students gain confidence", "practicing regularly helps students gain confidence"],
+          hint: "Turn the action into the subject of the sentence.",
+          solution: "Practising regularly helps students gain confidence."
+        },
+        {
+          source: "She looked at the statistics and questioned the author's claim.",
+          prompt: "Rewrite with a present participle phrase.",
+          answer: ["looking at the statistics, she questioned the author's claim"],
+          hint: "Use -ing for a simultaneous action before the main clause.",
+          solution: "Looking at the statistics, she questioned the author's claim."
+        }
+      ]
+    };
+
+    const endlessTemplates = [
+      () => buildGap("After {prep}, use the gerund: She insisted on ___ the data again.", ["checking"], "After a preposition, use an -ing form.", "She insisted on checking the data again."),
+      () => buildGap("Complete the sentence: I look forward to ___ your presentation.", ["hearing", "seeing"], "'Look forward to' contains 'to' as a preposition.", "I look forward to hearing your presentation."),
+      () => buildChoice("Best version for academic style:", [
+        "Because being clearly structured, the essay is convincing.",
+        "Clearly structured, the essay is convincing.",
+        "Clearly structuring, the essay is convincing.",
+        "To clearly structured, the essay is convincing."
+      ], 1, "The essay receives the structuring.", "Clearly structured, the essay is convincing."),
+      () => buildChoice("Which sentence avoids a dangling participle?", [
+        "Walking through the text, the argument became clearer.",
+        "Walking through the text, I found the argument clearer.",
+        "Written carefully, I understood the paragraph.",
+        "Having finished, the conclusion was short."
+      ], 1, "The subject after the comma must perform the participle action.", "Walking through the text, I found the argument clearer."),
+      () => buildGap("___ the evidence, the speaker changed his position.", ["having considered"], "Use 'Having + past participle' for a completed earlier action.", "Having considered the evidence, the speaker changed his position."),
+      () => buildChoice("Identify 'challenging' in: 'The challenging task required patience.'", [
+        "Gerund",
+        "Present participle used as adjective",
+        "Past participle",
+        "Finite verb"
+      ], 1, "It describes the noun 'task'.", "'Challenging' is a present participle used as an adjective.")
+    ];
+
+    const reviews = [
+      ["After prepositions", "Use gerunds after prepositions: by analysing, without checking, despite feeling, interested in learning."],
+      ["Verb patterns", "Avoid, enjoy, consider, suggest, risk and discuss are followed by gerunds."],
+      ["Present participle", "Use -ing participle clauses for simultaneous actions, reasons, or descriptions when the subject is clear."],
+      ["Past participle", "Use past participle phrases when the noun receives the action or is affected by it."],
+      ["Dangling participles", "The noun after the comma must logically perform or receive the participle action."],
+      ["Academic style", "Participle constructions can make sentences concise, but clarity is more important than compression."]
+    ];
+
+    const state = {
+      mode: "choice",
+      index: 0,
+      current: null,
+      checked: false,
+      done: Number(localStorage.getItem("gp_done") || 0),
+      correct: Number(localStorage.getItem("gp_correct") || 0)
+    };
+
+    const els = {
+      dateText: document.getElementById("dateText"),
+      timeText: document.getElementById("timeText"),
+      doneText: document.getElementById("doneText"),
+      correctText: document.getElementById("correctText"),
+      rateText: document.getElementById("rateText"),
+      studentName: document.getElementById("studentName"),
+      taskTitle: document.getElementById("taskTitle"),
+      taskSubtitle: document.getElementById("taskSubtitle"),
+      modePill: document.getElementById("modePill"),
+      sourceText: document.getElementById("sourceText"),
+      promptText: document.getElementById("promptText"),
+      answerArea: document.getElementById("answerArea"),
+      feedback: document.getElementById("feedback"),
+      hintBtn: document.getElementById("hintBtn"),
+      checkBtn: document.getElementById("checkBtn"),
+      solutionBtn: document.getElementById("solutionBtn"),
+      nextBtn: document.getElementById("nextBtn"),
+      resetBtn: document.getElementById("resetBtn"),
+      progressBar: document.getElementById("progressBar")
+    };
+
+    function buildGap(prompt, answer, hint, solution) {
+      return { type: "gap", prompt, answer, hint, solution };
+    }
+
+    function buildChoice(prompt, options, answer, hint, solution) {
+      return { type: "choice", prompt, options, answer, hint, solution };
+    }
+
+    function normalize(value) {
+      return value
+        .toLowerCase()
+        .trim()
+        .replace(/[.!?;,:"()]/g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    function updateClock() {
+      const now = new Date();
+      els.dateText.textContent = now.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+      els.timeText.textContent = now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function saveStats() {
+      localStorage.setItem("gp_done", String(state.done));
+      localStorage.setItem("gp_correct", String(state.correct));
+    }
+
+    function renderStats() {
+      els.doneText.textContent = state.done;
+      els.correctText.textContent = state.correct;
+      els.rateText.textContent = state.done ? Math.round((state.correct / state.done) * 100) + "%" : "0%";
+      saveStats();
+    }
+
+    function setFeedback(kind, html) {
+      els.feedback.className = "feedback show " + kind;
+      els.feedback.innerHTML = html;
+    }
+
+    function clearFeedback() {
+      els.feedback.className = "feedback";
+      els.feedback.textContent = "";
+    }
+
+    function getTask() {
+      if (state.mode === "endless") {
+        const task = endlessTemplates[Math.floor(Math.random() * endlessTemplates.length)]();
+        task.endless = true;
+        return task;
+      }
+      const list = exercises[state.mode] || exercises.choice;
+      return { ...list[state.index % list.length], type: state.mode };
+    }
+
+    function modeLabel(mode) {
+      return {
+        choice: ["Single Choice", "Waehle die beste Loesung."],
+        gap: ["Lueckentext", "Setze die passende Form ein."],
+        identify: ["Bestimmen", "Erkenne Funktion und Form."],
+        rewrite: ["Umformen", "Formuliere praeziser mit gerund oder participle."],
+        endless: ["Endless Practice", "Zufaellige Mischung ohne Ende."],
+        review: ["Review", "Knappe Regeln mit Beispielen."]
+      }[mode];
+    }
+
+    function renderTask() {
+      clearFeedback();
+      state.checked = false;
+      const label = modeLabel(state.mode);
+      els.taskTitle.textContent = label[0];
+      els.taskSubtitle.textContent = label[1];
+      els.modePill.textContent = state.mode === "endless" ? "Endless: an" : "Endless: aus";
+      els.checkBtn.disabled = state.mode === "review";
+      els.hintBtn.disabled = state.mode === "review";
+      els.solutionBtn.disabled = state.mode === "review";
+      els.nextBtn.disabled = false;
+
+      if (state.mode === "review") {
+        renderReview();
+        return;
+      }
+
+      state.current = getTask();
+      const task = state.current;
+      els.sourceText.classList.toggle("hidden", !task.source);
+      els.sourceText.textContent = task.source || "";
+      els.promptText.innerHTML = task.prompt.replace("___", '<span class="blank"></span>');
+      els.answerArea.innerHTML = "";
+
+      const taskList = state.mode === "endless" ? endlessTemplates : exercises[state.mode];
+      const progress = state.mode === "endless" ? (state.done % 20) * 5 : ((state.index % taskList.length) / taskList.length) * 100;
+      els.progressBar.style.width = Math.max(4, progress) + "%";
+
+      if (task.options) {
+        const wrap = document.createElement("div");
+        wrap.className = "options";
+        task.options.forEach((option, idx) => {
+          const label = document.createElement("label");
+          label.className = "option";
+          label.innerHTML = `<input type="radio" name="answer" value="${idx}"><span>${option}</span>`;
+          wrap.appendChild(label);
+        });
+        els.answerArea.appendChild(wrap);
+      } else if (task.type === "rewrite") {
+        const area = document.createElement("textarea");
+        area.className = "answer-input";
+        area.placeholder = "Deine Umformung";
+        area.id = "textAnswer";
+        els.answerArea.appendChild(area);
+      } else {
+        const input = document.createElement("input");
+        input.className = "answer-input";
+        input.id = "textAnswer";
+        input.placeholder = "Antwort eingeben";
+        input.autocomplete = "off";
+        els.answerArea.appendChild(input);
+      }
+    }
+
+    function renderReview() {
+      els.sourceText.classList.add("hidden");
+      els.promptText.textContent = "Core rules";
+      els.answerArea.innerHTML = "";
+      els.progressBar.style.width = "100%";
+      const list = document.createElement("div");
+      list.className = "review-list";
+      reviews.forEach(([title, text]) => {
+        const item = document.createElement("article");
+        item.className = "review-item";
+        item.innerHTML = `<strong>${title}</strong><p>${text}</p>`;
+        list.appendChild(item);
+      });
+      els.answerArea.appendChild(list);
+      clearFeedback();
+    }
+
+    function checkAnswer() {
+      if (!state.current || state.checked) return;
+      const task = state.current;
+      let ok = false;
+
+      if (task.options) {
+        const selected = document.querySelector('input[name="answer"]:checked');
+        if (!selected) {
+          setFeedback("hint", "Waehle zuerst eine Antwort aus.");
+          return;
+        }
+        const selectedIndex = Number(selected.value);
+        ok = selectedIndex === task.answer;
+        document.querySelectorAll(".option").forEach((option, idx) => {
+          option.classList.toggle("correct", idx === task.answer);
+          option.classList.toggle("wrong", idx === selectedIndex && !ok);
+        });
+      } else {
+        const answer = document.getElementById("textAnswer").value;
+        const accepted = Array.isArray(task.answer) ? task.answer : [task.answer];
+        ok = accepted.some(item => normalize(answer) === normalize(item));
+      }
+
+      state.checked = true;
+      state.done += 1;
+      if (ok) state.correct += 1;
+      renderStats();
+      setFeedback(ok ? "good" : "bad", ok ? "Richtig. " + task.solution : "Noch nicht. " + task.solution);
+    }
+
+    function showHint() {
+      if (!state.current) return;
+      setFeedback("hint", state.current.hint);
+    }
+
+    function showSolution() {
+      if (!state.current) return;
+      setFeedback("hint", state.current.solution);
+    }
+
+    function nextTask() {
+      if (state.mode !== "endless" && state.mode !== "review") {
+        const list = exercises[state.mode];
+        state.index = (state.index + 1) % list.length;
+      }
+      renderTask();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      state.index = 0;
+      document.querySelectorAll(".navbutton").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+      renderTask();
+    }
+
+    document.querySelectorAll(".navbutton").forEach(button => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+
+    els.hintBtn.addEventListener("click", showHint);
+    els.checkBtn.addEventListener("click", checkAnswer);
+    els.solutionBtn.addEventListener("click", showSolution);
+    els.nextBtn.addEventListener("click", nextTask);
+    els.resetBtn.addEventListener("click", () => {
+      state.done = 0;
+      state.correct = 0;
+      renderStats();
+      clearFeedback();
+    });
+
+    els.studentName.value = localStorage.getItem("gp_name") || "";
+    els.studentName.addEventListener("input", event => {
+      localStorage.setItem("gp_name", event.target.value);
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) checkAnswer();
+      if (event.key === "ArrowRight" && (event.metaKey || event.ctrlKey)) nextTask();
+    });
+
+    updateClock();
+    setInterval(updateClock, 1000);
+    renderStats();
+    renderTask();
+  </script>
+</body>
+</html>
