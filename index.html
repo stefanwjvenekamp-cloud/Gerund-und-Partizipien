@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -641,48 +641,48 @@
           <div class="mark">GP</div>
           <div>
             <h1>Gerunds & Participles Practice</h1>
-            <div class="subtitle">LK English | Accuracy, variety, sentence quality</div>
+            <div class="subtitle">Advanced English Course | Accuracy, variety, sentence quality</div>
           </div>
         </div>
-        <div class="stats" aria-label="Fortschritt">
+        <div class="stats" aria-label="Progress">
           <div class="namebox">
             <label for="studentName">Name</label>
-            <input id="studentName" placeholder="eintragen" autocomplete="name">
+            <input id="studentName" placeholder="enter name" autocomplete="name">
           </div>
-          <div class="stat"><span>Datum</span><b id="dateText">--</b></div>
-          <div class="stat"><span>Zeit</span><b id="timeText">--</b></div>
-          <div class="stat"><span>Gemacht</span><b id="doneText">0</b></div>
-          <div class="stat"><span>Korrekt</span><b id="correctText">0</b></div>
-          <div class="stat"><span>Quote</span><b id="rateText">0%</b></div>
+          <div class="stat"><span>Date</span><b id="dateText">--</b></div>
+          <div class="stat"><span>Time</span><b id="timeText">--</b></div>
+          <div class="stat"><span>Done</span><b id="doneText">0</b></div>
+          <div class="stat"><span>Correct</span><b id="correctText">0</b></div>
+          <div class="stat"><span>Score</span><b id="rateText">0%</b></div>
         </div>
       </div>
     </header>
 
     <main>
-      <nav aria-label="Aufgabentypen">
+      <nav aria-label="Task types">
         <button class="navbutton active" data-mode="choice">
           <span class="icon">A</span>
-          <span><strong>Single Choice</strong><small>Form und Funktion</small></span>
+          <span><strong>Single Choice</strong><small>Form and function</small></span>
         </button>
         <button class="navbutton" data-mode="gap">
           <span class="icon">_</span>
-          <span><strong>Lueckentext</strong><small>passende -ing Form</small></span>
+          <span><strong>Gap Fill</strong><small>Choose the right form</small></span>
         </button>
         <button class="navbutton" data-mode="identify">
           <span class="icon">?</span>
-          <span><strong>Bestimmen</strong><small>Gerund oder participle</small></span>
+          <span><strong>Identify</strong><small>Gerund or participle</small></span>
         </button>
         <button class="navbutton" data-mode="rewrite">
           <span class="icon">R</span>
-          <span><strong>Umformen</strong><small>Satzqualitaet</small></span>
+          <span><strong>Rewrite</strong><small>Improve sentence quality</small></span>
         </button>
         <button class="navbutton" data-mode="endless">
           <span class="icon">E</span>
-          <span><strong>Endless Practice</strong><small>zufaellige Mischung</small></span>
+          <span><strong>Endless Practice</strong><small>Random mixed tasks</small></span>
         </button>
         <button class="navbutton" data-mode="review">
           <span class="icon">OK</span>
-          <span><strong>Review</strong><small>Merksaetze</small></span>
+          <span><strong>Review</strong><small>Core rules</small></span>
         </button>
       </nav>
 
@@ -705,14 +705,14 @@
           </article>
         </div>
 
-        <section class="downloads" aria-label="Arbeitsblatt Downloads">
+        <section class="downloads" aria-label="Worksheet downloads">
           <div>
             <h2>Downloadable worksheets</h2>
             <p>Rules, practice tasks, and a separate answer key for self-checking at home or in class.</p>
           </div>
           <div class="download-actions">
-            <button class="btn secondary" id="worksheetBtn" title="Arbeitsblaetter herunterladen">Arbeitsblaetter</button>
-            <button class="btn secondary" id="answersBtn" title="Loesungsmaterial herunterladen">Loesungen</button>
+            <button class="btn secondary" id="worksheetBtn" title="Download worksheets">Worksheets</button>
+            <button class="btn secondary" id="answersBtn" title="Download answer key">Answer Key</button>
           </div>
         </section>
 
@@ -720,9 +720,9 @@
           <div class="task-head">
             <div class="task-title">
               <h2 id="taskTitle">Single Choice</h2>
-              <p id="taskSubtitle">Waehle die beste Loesung.</p>
+              <p id="taskSubtitle">Choose the best answer.</p>
             </div>
-            <div class="mode-pill" id="modePill">Endless: aus</div>
+            <div class="mode-pill" id="modePill">Endless: off</div>
           </div>
 
           <div class="task-body">
@@ -732,11 +732,11 @@
             <div id="answerArea"></div>
             <div class="feedback" id="feedback"></div>
             <div class="toolbar">
-              <button class="btn warn" id="hintBtn" title="Hinweis anzeigen">Hinweis</button>
-              <button class="btn primary" id="checkBtn" title="Antwort pruefen">Pruefen</button>
-              <button class="btn secondary" id="solutionBtn" title="Loesung anzeigen">Loesung</button>
-              <button class="btn secondary" id="nextBtn" title="Naechste Aufgabe">Naechste</button>
-              <button class="btn secondary" id="resetBtn" title="Fortschritt zuruecksetzen">Reset</button>
+              <button class="btn warn" id="hintBtn" title="Show hint">Hint</button>
+              <button class="btn primary" id="checkBtn" title="Check answer">Check</button>
+              <button class="btn secondary" id="solutionBtn" title="Show solution">Solution</button>
+              <button class="btn secondary" id="nextBtn" title="Next task">Next</button>
+              <button class="btn secondary" id="resetBtn" title="Reset progress">Reset</button>
             </div>
           </div>
         </article>
@@ -981,8 +981,8 @@
 
     function updateClock() {
       const now = new Date();
-      els.dateText.textContent = now.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
-      els.timeText.textContent = now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+      els.dateText.textContent = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+      els.timeText.textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
     }
 
     function saveStats() {
@@ -1019,12 +1019,12 @@
 
     function modeLabel(mode) {
       return {
-        choice: ["Single Choice", "Waehle die beste Loesung."],
-        gap: ["Lueckentext", "Setze die passende Form ein."],
-        identify: ["Bestimmen", "Erkenne Funktion und Form."],
-        rewrite: ["Umformen", "Formuliere praeziser mit gerund oder participle."],
-        endless: ["Endless Practice", "Zufaellige Mischung ohne Ende."],
-        review: ["Review", "Knappe Regeln mit Beispielen."]
+        choice: ["Single Choice", "Choose the best answer."],
+        gap: ["Gap Fill", "Use the correct form of the verb in brackets."],
+        identify: ["Identify", "Recognise the form and function."],
+        rewrite: ["Rewrite", "Improve the sentence with a gerund or participle construction."],
+        endless: ["Endless Practice", "Random mixed practice without a fixed endpoint."],
+        review: ["Review", "Short rules with examples."]
       }[mode];
     }
 
@@ -1034,7 +1034,7 @@
       const label = modeLabel(state.mode);
       els.taskTitle.textContent = label[0];
       els.taskSubtitle.textContent = label[1];
-      els.modePill.textContent = state.mode === "endless" ? "Endless: an" : "Endless: aus";
+      els.modePill.textContent = state.mode === "endless" ? "Endless: on" : "Endless: off";
       els.checkBtn.disabled = state.mode === "review";
       els.hintBtn.disabled = state.mode === "review";
       els.solutionBtn.disabled = state.mode === "review";
@@ -1069,14 +1069,14 @@
       } else if (task.type === "rewrite") {
         const area = document.createElement("textarea");
         area.className = "answer-input";
-        area.placeholder = "Deine Umformung";
+        area.placeholder = "Your rewritten sentence";
         area.id = "textAnswer";
         els.answerArea.appendChild(area);
       } else {
         const input = document.createElement("input");
         input.className = "answer-input";
         input.id = "textAnswer";
-        input.placeholder = "Antwort eingeben";
+        input.placeholder = "Type your answer";
         input.autocomplete = "off";
         els.answerArea.appendChild(input);
       }
@@ -1107,7 +1107,7 @@
       if (task.options) {
         const selected = document.querySelector('input[name="answer"]:checked');
         if (!selected) {
-          setFeedback("hint", "Waehle zuerst eine Antwort aus.");
+          setFeedback("hint", "Choose an answer first.");
           return;
         }
         const selectedIndex = Number(selected.value);
@@ -1126,7 +1126,7 @@
       state.done += 1;
       if (ok) state.correct += 1;
       renderStats();
-      setFeedback(ok ? "good" : "bad", ok ? "Richtig. " + task.solution : "Noch nicht. " + task.solution);
+      setFeedback(ok ? "good" : "bad", ok ? "Correct. " + task.solution : "Not quite. " + task.solution);
     }
 
     function showHint() {
