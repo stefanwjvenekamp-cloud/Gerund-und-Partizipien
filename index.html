@@ -112,7 +112,8 @@
     }
 
     .stat,
-    .namebox {
+    .namebox,
+    .stats-reset {
       min-height: 42px;
       border: 1px solid var(--line);
       background: var(--panel);
@@ -125,6 +126,21 @@
 
     .stat {
       min-width: 82px;
+    }
+
+    .stats-reset {
+      width: 42px;
+      padding: 0;
+      place-items: center;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .stats-reset:hover {
+      border-color: rgba(18, 110, 130, .45);
+      background: var(--soft);
     }
 
     .stat b {
@@ -474,6 +490,19 @@
       line-height: 1.5;
     }
 
+    .feedback p {
+      margin: 7px 0 0;
+    }
+
+    .feedback p:first-child {
+      margin-top: 0;
+    }
+
+    .feedback-title {
+      display: block;
+      margin-bottom: 3px;
+    }
+
     .feedback.show {
       display: block;
     }
@@ -494,6 +523,89 @@
       border-color: rgba(161, 92, 7, .35);
       background: #fff8e8;
       color: #7a4100;
+    }
+
+    .popup-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(23, 32, 42, .46);
+    }
+
+    .popup-layer.show {
+      display: flex;
+    }
+
+    .popup {
+      width: min(640px, 100%);
+      max-height: min(720px, calc(100vh - 40px));
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid rgba(215, 221, 231, .95);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .popup-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(18, 110, 130, .1), transparent 62%),
+        #fff;
+    }
+
+    .popup-head h2 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .popup-close {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .popup-body {
+      overflow: auto;
+      padding: 18px;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    .popup-body p {
+      margin: 0;
+    }
+
+    .popup-body p + p,
+    .popup-body ul + p,
+    .popup-body p + ul {
+      margin-top: 12px;
+    }
+
+    .popup-body ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .popup-body li {
+      margin: 7px 0;
     }
 
     .drill-grid {
@@ -610,7 +722,8 @@
       }
 
       .namebox,
-      .stat {
+      .stat,
+      .stats-reset {
         width: 100%;
       }
 
@@ -654,6 +767,7 @@
           <div class="stat"><span>Done</span><b id="doneText">0</b></div>
           <div class="stat"><span>Correct</span><b id="correctText">0</b></div>
           <div class="stat"><span>Score</span><b id="rateText">0%</b></div>
+          <button class="stats-reset" id="statsResetBtn" type="button" title="Reset stats" aria-label="Reset stats">&#8635;</button>
         </div>
       </div>
     </header>
@@ -732,6 +846,8 @@
             <div id="answerArea"></div>
             <div class="feedback" id="feedback"></div>
             <div class="toolbar">
+              <button class="btn secondary" id="helpBtn" title="Open study help">Help</button>
+              <button class="btn secondary" id="tipBtn" title="Show grammar tip">Tip</button>
               <button class="btn warn" id="hintBtn" title="Show hint">Hint</button>
               <button class="btn primary" id="checkBtn" title="Check answer">Check</button>
               <button class="btn secondary" id="solutionBtn" title="Show solution">Solution</button>
@@ -742,6 +858,16 @@
         </article>
       </section>
     </main>
+  </div>
+
+  <div class="popup-layer" id="popupLayer" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-hidden="true">
+    <div class="popup">
+      <div class="popup-head">
+        <h2 id="popupTitle">Help</h2>
+        <button class="popup-close" id="popupClose" aria-label="Close popup">&times;</button>
+      </div>
+      <div class="popup-body" id="popupBody"></div>
+    </div>
   </div>
 
   <script>
@@ -757,14 +883,16 @@
           ],
           answer: 0,
           hint: "A gerund can act like a noun and answer: What improves vocabulary?",
-          solution: "Reading complex articles improves your academic vocabulary. Here, 'Reading complex articles' is the subject."
+          solution: "Reading complex articles improves your academic vocabulary. Here, 'Reading complex articles' is the subject.",
+          explanation: "A gerund phrase is an -ing form used as a noun phrase. In the correct sentence, 'Reading complex articles' names an activity and functions as the subject of the verb 'improves'. The other options use -ing or participle forms differently: a participle clause, a past participle phrase, or a progressive verb form."
         },
         {
           prompt: "Choose the best completion: He apologised for ___ late. (arrive)",
           options: ["arrive", "to arrive", "arriving", "arrived"],
           answer: 2,
           hint: "After a preposition, English normally uses a gerund.",
-          solution: "He apologised for arriving late."
+          solution: "He apologised for arriving late.",
+          explanation: "'For' is a preposition in this sentence, and verbs after prepositions normally take the gerund form. 'Arriving' works as the object of the preposition 'for'. An infinitive such as 'to arrive' does not fit after this preposition."
         },
         {
           prompt: "Which sentence contains a present participle clause?",
@@ -776,7 +904,8 @@
           ],
           answer: 2,
           hint: "Look for an -ing phrase that adds information about an action happening at the same time.",
-          solution: "'Swimming across the lake' is a present participle clause."
+          solution: "'Swimming across the lake' is a present participle clause.",
+          explanation: "The phrase 'Swimming across the lake' adds information about what the subject was doing at the same time as the main action. It is not the subject or object of the sentence, so it is not a gerund here. It is a present participle clause linked to 'he'."
         },
         {
           prompt: "Choose the correct sentence.",
@@ -788,7 +917,8 @@
           ],
           answer: 1,
           hint: "'Despite' is followed by a noun phrase or gerund phrase.",
-          solution: "Despite studying hard, he felt nervous."
+          solution: "Despite studying hard, he felt nervous.",
+          explanation: "'Despite' is a preposition, not a conjunction followed by a finite clause. After 'despite', English uses a noun phrase or a gerund phrase, so 'studying hard' is correct. The infinitive 'to study' and the past form 'studied' do not fit this pattern."
         },
         {
           prompt: "Which option shows a past participle with passive meaning?",
@@ -800,7 +930,8 @@
           ],
           answer: 2,
           hint: "Ask whether the noun receives the action.",
-          solution: "'Finished in only two hours' means the essay was finished."
+          solution: "'Finished in only two hours' means the essay was finished.",
+          explanation: "A past participle phrase often has passive meaning: the noun receives the action. In the correct option, the essay was finished in only two hours. By contrast, 'finishing' and 'having finished' describe an active action performed by a person."
         }
       ],
       gap: [
@@ -808,31 +939,36 @@
           prompt: "The committee discussed ___ the deadline by two weeks. (extend)",
           answer: ["extending"],
           hint: "After 'discuss', use a gerund, not an infinitive.",
-          solution: "The committee discussed extending the deadline by two weeks."
+          solution: "The committee discussed extending the deadline by two weeks.",
+          explanation: "'Discuss' is followed directly by a noun phrase or a gerund phrase. The action 'extending the deadline' is the thing being discussed, so the -ing form works like a noun. Standard English does not use 'discuss to extend' in this pattern."
         },
         {
           prompt: "___ by the results, the students changed their revision strategy. (disappoint)",
           answer: ["disappointed"],
           hint: "The students felt this; use the past participle.",
-          solution: "Disappointed by the results, the students changed their revision strategy."
+          solution: "Disappointed by the results, the students changed their revision strategy.",
+          explanation: "Use the past participle when the subject is affected by something. The students were disappointed by the results, so 'Disappointed' describes their state. 'Disappointing' would describe something that causes disappointment, such as 'the disappointing results'."
         },
         {
           prompt: "She avoided ___ a general statement without evidence. (make)",
           answer: ["making"],
           hint: "'Avoid' is followed by a gerund.",
-          solution: "She avoided making a general statement without evidence."
+          solution: "She avoided making a general statement without evidence.",
+          explanation: "'Avoid' belongs to a group of verbs that are followed by gerunds, including enjoy, consider, suggest, risk and discuss. The gerund phrase 'making a general statement without evidence' names the action she avoided."
         },
         {
           prompt: "___ more carefully, the paragraph would be easier to follow. (write)",
           answer: ["written"],
           hint: "The paragraph receives the action.",
-          solution: "Written more carefully, the paragraph would be easier to follow."
+          solution: "Written more carefully, the paragraph would be easier to follow.",
+          explanation: "The paragraph does not do the writing; someone writes the paragraph. Because the noun receives the action, the past participle 'Written' gives a passive meaning. This creates a concise form of 'If the paragraph were written more carefully...'."
         },
         {
           prompt: "There is no point in ___ the same argument twice. (repeat)",
           answer: ["repeating"],
           hint: "The expression is 'There is no point in + gerund'.",
-          solution: "There is no point in repeating the same argument twice."
+          solution: "There is no point in repeating the same argument twice.",
+          explanation: "The expression is 'There is no point in + gerund'. Here, 'in' is a preposition, so the verb after it takes the -ing form. The gerund phrase 'repeating the same argument twice' names the action that has no useful purpose."
         }
       ],
       identify: [
@@ -841,28 +977,32 @@
           options: ["Gerund", "Present participle", "Past participle", "Finite verb"],
           answer: 1,
           hint: "The phrase modifies the subject and describes a simultaneous action.",
-          solution: "'Analysing both sources' is a present participle clause."
+          solution: "'Analysing both sources' is a present participle clause.",
+          explanation: "The phrase does not name the subject of the sentence; the subject is 'the author'. Instead, 'Analysing both sources' explains what the author is doing while reaching the conclusion. That makes it a present participle clause."
         },
         {
           prompt: "Identify the -ing form: 'Arguing without evidence weakens the essay.'",
           options: ["Gerund", "Present participle", "Past participle", "Adverb"],
           answer: 0,
           hint: "The -ing phrase is the subject of the sentence.",
-          solution: "'Arguing without evidence' is a gerund phrase."
+          solution: "'Arguing without evidence' is a gerund phrase.",
+          explanation: "The whole -ing phrase functions as the subject of the verb 'weakens'. It names an action as an idea, like a noun phrase would. Because it is used as a noun, it is a gerund phrase, not a participle clause."
         },
         {
           prompt: "Identify the participle: 'Shocked by the ending, many viewers criticised the film.'",
           options: ["Gerund", "Present participle", "Past participle", "Infinitive"],
           answer: 2,
           hint: "It describes how the viewers were affected.",
-          solution: "'Shocked by the ending' is a past participle phrase."
+          solution: "'Shocked by the ending' is a past participle phrase.",
+          explanation: "'Shocked' describes the viewers as people affected by the ending. Past participles often show a received action or resulting state. The phrase gives a reason for the main clause: because many viewers were shocked, they criticised the film."
         },
         {
           prompt: "Identify the -ing form: 'The rising cost of living dominates the debate.'",
           options: ["Gerund", "Present participle used as adjective", "Past participle", "Modal verb"],
           answer: 1,
           hint: "It describes the noun 'cost'.",
-          solution: "'Rising' functions adjectivally as a present participle."
+          solution: "'Rising' functions adjectivally as a present participle.",
+          explanation: "'Rising' describes the noun 'cost'; it tells us what kind of cost is being discussed. Because it modifies a noun like an adjective, it is a present participle used adjectivally, not a gerund naming an activity."
         }
       ],
       rewrite: [
@@ -871,54 +1011,58 @@
           prompt: "Rewrite with a participle construction.",
           answer: ["having revised the grammar rules, she wrote more confidently"],
           hint: "For a completed earlier action, use 'Having + past participle'.",
-          solution: "Having revised the grammar rules, she wrote more confidently."
+          solution: "Having revised the grammar rules, she wrote more confidently.",
+          explanation: "'Having + past participle' shows that one action was completed before the main action. She revised the rules first and wrote more confidently afterwards. The subject of the participle phrase and the main clause is the same person: she."
         },
         {
           source: "The article was written in a neutral style, so it sounds reliable.",
           prompt: "Rewrite the first clause as a past participle phrase.",
           answer: ["written in a neutral style, the article sounds reliable"],
           hint: "Start with the past participle and keep the noun after the comma.",
-          solution: "Written in a neutral style, the article sounds reliable."
+          solution: "Written in a neutral style, the article sounds reliable.",
+          explanation: "The article receives the action of writing, so the past participle 'Written' gives passive meaning. The noun after the comma must be the thing described by the participle phrase. Here, 'the article' is correctly placed after the comma."
         },
         {
           source: "When students practise regularly, they gain confidence.",
           prompt: "Rewrite with a gerund phrase as the subject.",
           answer: ["practising regularly helps students gain confidence", "practicing regularly helps students gain confidence"],
           hint: "Turn the action into the subject of the sentence.",
-          solution: "Practising regularly helps students gain confidence."
+          solution: "Practising regularly helps students gain confidence.",
+          explanation: "'Practising regularly' names the activity as a concept, so it functions as the subject of the sentence. A gerund phrase used as a subject is treated as singular, which is why the verb is 'helps', not 'help'."
         },
         {
           source: "She looked at the statistics and questioned the author's claim.",
           prompt: "Rewrite with a present participle phrase.",
           answer: ["looking at the statistics, she questioned the author's claim"],
           hint: "Use -ing for a simultaneous action before the main clause.",
-          solution: "Looking at the statistics, she questioned the author's claim."
+          solution: "Looking at the statistics, she questioned the author's claim.",
+          explanation: "A present participle phrase can show an action happening at the same time as the main action. The subject after the comma, 'she', is also the person looking at the statistics, so the construction is clear and not dangling."
         }
       ]
     };
 
     const endlessTemplates = [
-      () => buildGap("After a preposition, use the gerund: She insisted on ___ the data again. (check)", ["checking"], "After a preposition, use an -ing form.", "She insisted on checking the data again."),
-      () => buildGap("Complete the sentence: I look forward to ___ your presentation. (hear)", ["hearing"], "'Look forward to' contains 'to' as a preposition.", "I look forward to hearing your presentation."),
+      () => buildGap("After a preposition, use the gerund: She insisted on ___ the data again. (check)", ["checking"], "After a preposition, use an -ing form.", "She insisted on checking the data again.", "'On' is a preposition, and a verb after a preposition normally appears as a gerund. The gerund phrase 'checking the data again' names the action she insisted on."),
+      () => buildGap("Complete the sentence: I look forward to ___ your presentation. (hear)", ["hearing"], "'Look forward to' contains 'to' as a preposition.", "I look forward to hearing your presentation.", "In 'look forward to', the word 'to' is a preposition, not an infinitive marker. That is why the correct form is the gerund 'hearing', not the infinitive 'hear' or 'to hear'."),
       () => buildChoice("Best version for academic style:", [
         "Because being clearly structured, the essay is convincing.",
         "Clearly structured, the essay is convincing.",
         "Clearly structuring, the essay is convincing.",
         "To clearly structured, the essay is convincing."
-      ], 1, "The essay receives the structuring.", "Clearly structured, the essay is convincing."),
+      ], 1, "The essay receives the structuring.", "Clearly structured, the essay is convincing.", "The essay is the thing that has been structured, so the past participle 'structured' has passive meaning. The concise participle phrase replaces a longer clause such as 'Because the essay is clearly structured...'."),
       () => buildChoice("Which sentence avoids a dangling participle?", [
         "Walking through the text, the argument became clearer.",
         "Walking through the text, I found the argument clearer.",
         "Written carefully, I understood the paragraph.",
         "Having finished, the conclusion was short."
-      ], 1, "The subject after the comma must perform the participle action.", "Walking through the text, I found the argument clearer."),
-      () => buildGap("___ the evidence, the speaker changed his position. (consider)", ["having considered"], "Use 'Having + past participle' for a completed earlier action.", "Having considered the evidence, the speaker changed his position."),
+      ], 1, "The subject after the comma must perform the participle action.", "Walking through the text, I found the argument clearer.", "A participle phrase must connect logically to the subject of the main clause. In the correct sentence, 'I' is the person walking through the text. In the other options, the subject after the comma cannot logically perform the participle action."),
+      () => buildGap("___ the evidence, the speaker changed his position. (consider)", ["having considered"], "Use 'Having + past participle' for a completed earlier action.", "Having considered the evidence, the speaker changed his position.", "'Having considered' shows that the speaker completed the act of considering before changing his position. This construction is useful when the participle action clearly happened before the main action."),
       () => buildChoice("Identify 'challenging' in: 'The challenging task required patience.'", [
         "Gerund",
         "Present participle used as adjective",
         "Past participle",
         "Finite verb"
-      ], 1, "It describes the noun 'task'.", "'Challenging' is a present participle used as an adjective.")
+      ], 1, "It describes the noun 'task'.", "'Challenging' is a present participle used as an adjective.", "'Challenging' modifies the noun 'task' and means that the task causes a challenge. Because it describes a noun, it is adjectival. It is not a gerund because it does not function as a noun in this sentence.")
     ];
 
     const reviews = [
@@ -945,6 +1089,7 @@
       doneText: document.getElementById("doneText"),
       correctText: document.getElementById("correctText"),
       rateText: document.getElementById("rateText"),
+      statsResetBtn: document.getElementById("statsResetBtn"),
       studentName: document.getElementById("studentName"),
       taskTitle: document.getElementById("taskTitle"),
       taskSubtitle: document.getElementById("taskSubtitle"),
@@ -953,6 +1098,8 @@
       promptText: document.getElementById("promptText"),
       answerArea: document.getElementById("answerArea"),
       feedback: document.getElementById("feedback"),
+      helpBtn: document.getElementById("helpBtn"),
+      tipBtn: document.getElementById("tipBtn"),
       hintBtn: document.getElementById("hintBtn"),
       checkBtn: document.getElementById("checkBtn"),
       solutionBtn: document.getElementById("solutionBtn"),
@@ -960,15 +1107,21 @@
       resetBtn: document.getElementById("resetBtn"),
       progressBar: document.getElementById("progressBar"),
       worksheetBtn: document.getElementById("worksheetBtn"),
-      answersBtn: document.getElementById("answersBtn")
+      answersBtn: document.getElementById("answersBtn"),
+      popupLayer: document.getElementById("popupLayer"),
+      popupTitle: document.getElementById("popupTitle"),
+      popupBody: document.getElementById("popupBody"),
+      popupClose: document.getElementById("popupClose")
     };
 
-    function buildGap(prompt, answer, hint, solution) {
-      return { type: "gap", prompt, answer, hint, solution };
+    let lastFocusedElement = null;
+
+    function buildGap(prompt, answer, hint, solution, explanation = "") {
+      return { type: "gap", prompt, answer, hint, solution, explanation };
     }
 
-    function buildChoice(prompt, options, answer, hint, solution) {
-      return { type: "choice", prompt, options, answer, hint, solution };
+    function buildChoice(prompt, options, answer, hint, solution, explanation = "") {
+      return { type: "choice", prompt, options, answer, hint, solution, explanation };
     }
 
     function normalize(value) {
@@ -977,6 +1130,41 @@
         .trim()
         .replace(/[.!?;,:"()]/g, "")
         .replace(/\s+/g, " ");
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function paragraphs(items) {
+      return items
+        .filter(Boolean)
+        .map(item => `<p>${item}</p>`)
+        .join("");
+    }
+
+    function openPopup(title, html) {
+      lastFocusedElement = document.activeElement;
+      els.popupTitle.textContent = title;
+      els.popupBody.innerHTML = html;
+      els.popupLayer.classList.add("show");
+      els.popupLayer.setAttribute("aria-hidden", "false");
+      els.popupClose.focus();
+    }
+
+    function closePopup() {
+      els.popupLayer.classList.remove("show");
+      els.popupLayer.setAttribute("aria-hidden", "true");
+      els.popupBody.textContent = "";
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
     }
 
     function updateClock() {
@@ -995,6 +1183,13 @@
       els.correctText.textContent = state.correct;
       els.rateText.textContent = state.done ? Math.round((state.correct / state.done) * 100) + "%" : "0%";
       saveStats();
+    }
+
+    function resetStats() {
+      state.done = 0;
+      state.correct = 0;
+      renderStats();
+      clearFeedback();
     }
 
     function setFeedback(kind, html) {
@@ -1041,6 +1236,7 @@
       els.nextBtn.disabled = false;
 
       if (state.mode === "review") {
+        state.current = null;
         renderReview();
         return;
       }
@@ -1099,10 +1295,66 @@
       clearFeedback();
     }
 
+    function getModeTip(mode) {
+      return {
+        choice: "Read the whole sentence before choosing. Decide whether the -ing or -ed form is acting as a noun, describing a noun, or shortening a clause.",
+        gap: "Look first at the word before the gap. Prepositions and certain verbs usually demand a gerund; passive meaning usually points to a past participle.",
+        identify: "Ask what job the form does in the sentence. If it names an activity as a subject or object, it is a gerund. If it describes another noun or action, it is a participle.",
+        rewrite: "Keep the logical subject clear. The noun after a participle phrase must be the person or thing doing or receiving the action in that phrase.",
+        endless: "In mixed practice, name the grammar pattern before answering: gerund after preposition, present participle for active/simultaneous meaning, or past participle for passive/affected meaning.",
+        review: "Use the review cards as a checklist: form, function, subject connection, and meaning. A correct form must also make logical sense in the sentence."
+      }[mode];
+    }
+
+    function taskExplanation(task) {
+      return task.explanation || "The correct answer follows the grammar pattern shown in the model solution. Check whether the form is used as a noun, an active participle, or a passive participle.";
+    }
+
+    function buildDetailedFeedback(task, ok, userAnswer) {
+      const title = ok ? "Correct." : "Not quite.";
+      const intro = ok
+        ? "Your answer matches the required form and fits the grammar pattern in this sentence."
+        : "Your answer does not match the required grammar pattern here. Compare it with the model answer and the rule below.";
+      const userLine = !ok
+        ? `<p><strong>Your answer:</strong> ${escapeHtml(userAnswer || "No answer entered.")}</p>`
+        : "";
+
+      return `
+        <strong class="feedback-title">${title}</strong>
+        <p>${intro}</p>
+        ${userLine}
+        <p><strong>Correct model:</strong> ${escapeHtml(task.solution)}</p>
+        <p><strong>Grammar explanation:</strong> ${escapeHtml(taskExplanation(task))}</p>
+      `;
+    }
+
+    function showHelp() {
+      openPopup("Study Help", `
+        <p>This practice focuses on the grammatical job of each form, not only on the spelling of the verb.</p>
+        <ul>
+          <li><strong>Gerund:</strong> an -ing form used like a noun, often after prepositions or verbs such as avoid, enjoy, discuss, consider and suggest.</li>
+          <li><strong>Present participle:</strong> an -ing form that describes an active action, a simultaneous action, a reason, or a noun.</li>
+          <li><strong>Past participle:</strong> a third verb form or -ed form that often gives passive meaning or shows that the noun is affected.</li>
+          <li><strong>Subject link:</strong> in participle clauses, the noun after the comma must logically do or receive the participle action.</li>
+        </ul>
+      `);
+    }
+
+    function showTip() {
+      const taskFocus = state.current && state.mode !== "review"
+        ? `<strong>This task:</strong> ${escapeHtml(taskExplanation(state.current))}`
+        : "";
+      openPopup("Grammar Tip", paragraphs([
+        escapeHtml(getModeTip(state.mode)),
+        taskFocus
+      ]));
+    }
+
     function checkAnswer() {
-      if (!state.current || state.checked) return;
+      if (state.mode === "review" || !state.current || state.checked) return;
       const task = state.current;
       let ok = false;
+      let userAnswer = "";
 
       if (task.options) {
         const selected = document.querySelector('input[name="answer"]:checked');
@@ -1111,6 +1363,7 @@
           return;
         }
         const selectedIndex = Number(selected.value);
+        userAnswer = task.options[selectedIndex];
         ok = selectedIndex === task.answer;
         document.querySelectorAll(".option").forEach((option, idx) => {
           option.classList.toggle("correct", idx === task.answer);
@@ -1118,6 +1371,7 @@
         });
       } else {
         const answer = document.getElementById("textAnswer").value;
+        userAnswer = answer.trim();
         const accepted = Array.isArray(task.answer) ? task.answer : [task.answer];
         ok = accepted.some(item => normalize(answer) === normalize(item));
       }
@@ -1126,17 +1380,23 @@
       state.done += 1;
       if (ok) state.correct += 1;
       renderStats();
-      setFeedback(ok ? "good" : "bad", ok ? "Correct. " + task.solution : "Not quite. " + task.solution);
+      setFeedback(ok ? "good" : "bad", buildDetailedFeedback(task, ok, userAnswer));
     }
 
     function showHint() {
       if (!state.current) return;
-      setFeedback("hint", state.current.hint);
+      openPopup("Hint", paragraphs([
+        escapeHtml(state.current.hint),
+        `<strong>Grammar focus:</strong> ${escapeHtml(taskExplanation(state.current))}`
+      ]));
     }
 
     function showSolution() {
       if (!state.current) return;
-      setFeedback("hint", state.current.solution);
+      openPopup("Solution", paragraphs([
+        `<strong>Correct model:</strong> ${escapeHtml(state.current.solution)}`,
+        `<strong>Grammar explanation:</strong> ${escapeHtml(taskExplanation(state.current))}`
+      ]));
     }
 
     function downloadFile(filename, html) {
@@ -1308,18 +1568,20 @@
       button.addEventListener("click", () => setMode(button.dataset.mode));
     });
 
+    els.helpBtn.addEventListener("click", showHelp);
+    els.tipBtn.addEventListener("click", showTip);
     els.hintBtn.addEventListener("click", showHint);
     els.checkBtn.addEventListener("click", checkAnswer);
     els.solutionBtn.addEventListener("click", showSolution);
     els.nextBtn.addEventListener("click", nextTask);
     els.worksheetBtn.addEventListener("click", () => downloadFile("gerunds-participles-worksheets.html", worksheetHtml()));
     els.answersBtn.addEventListener("click", () => downloadFile("gerunds-participles-answer-key.html", answersHtml()));
-    els.resetBtn.addEventListener("click", () => {
-      state.done = 0;
-      state.correct = 0;
-      renderStats();
-      clearFeedback();
+    els.statsResetBtn.addEventListener("click", resetStats);
+    els.popupClose.addEventListener("click", closePopup);
+    els.popupLayer.addEventListener("click", event => {
+      if (event.target === els.popupLayer) closePopup();
     });
+    els.resetBtn.addEventListener("click", resetStats);
 
     els.studentName.value = localStorage.getItem("gp_name") || "";
     els.studentName.addEventListener("input", event => {
@@ -1327,6 +1589,7 @@
     });
 
     document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && els.popupLayer.classList.contains("show")) closePopup();
       if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) checkAnswer();
       if (event.key === "ArrowRight" && (event.metaKey || event.ctrlKey)) nextTask();
     });
