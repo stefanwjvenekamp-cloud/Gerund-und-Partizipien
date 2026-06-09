@@ -236,7 +236,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 14px;
-      min-height: 120px;
+      min-height: 210px;
     }
 
     .mini h2 {
@@ -249,6 +249,40 @@
       color: var(--muted);
       line-height: 1.45;
       font-size: .9rem;
+    }
+
+    .mini p + p {
+      margin-top: 10px;
+    }
+
+    .downloads {
+      background: rgba(255, 255, 255, .86);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .downloads h2 {
+      margin: 0 0 5px;
+      font-size: 1rem;
+    }
+
+    .downloads p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: .9rem;
+    }
+
+    .download-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
     }
 
     .task {
@@ -553,6 +587,14 @@
       .grammar-strip {
         grid-template-columns: 1fr;
       }
+
+      .downloads {
+        grid-template-columns: 1fr;
+      }
+
+      .download-actions {
+        justify-content: flex-start;
+      }
     }
 
     @media (max-width: 620px) {
@@ -648,17 +690,31 @@
         <div class="grammar-strip">
           <article class="mini">
             <h2>Gerund</h2>
-            <p>Noun-like -ing form: subject, object, after prepositions and set expressions. Example: <strong>Reading</strong> improves style.</p>
+            <p>A gerund is the <strong>-ing</strong> form of a verb used like a noun. It names an activity or idea: <strong>Reading</strong> improves your vocabulary.</p>
+            <p>You often use it after prepositions and certain verbs: interested in <strong>learning</strong>, avoid <strong>repeating</strong>, enjoy <strong>discussing</strong>.</p>
           </article>
           <article class="mini">
             <h2>Present participle</h2>
-            <p>Verb/adjective-like -ing form: reduced clauses, simultaneous actions, descriptions. Example: <strong>Walking</strong> home, she revised.</p>
+            <p>A present participle is also an <strong>-ing</strong> form, but it does not work like a noun. It adds information about an action, a reason, or a description.</p>
+            <p>It can make sentences smoother: <strong>Looking</strong> at the data, she changed her opinion. The person after the comma must do the action.</p>
           </article>
           <article class="mini">
             <h2>Past participle</h2>
-            <p>-ed/third form for passive or completed meaning. Example: <strong>Written</strong> clearly, the essay convinced the reader.</p>
+            <p>A past participle is often the <strong>-ed</strong> form or the third verb form, such as written, seen, made. It usually shows that someone or something receives an action.</p>
+            <p>It is useful for concise academic style: <strong>Written</strong> clearly, the essay is easy to follow. The essay was written; it did not write itself.</p>
           </article>
         </div>
+
+        <section class="downloads" aria-label="Arbeitsblatt Downloads">
+          <div>
+            <h2>Downloadable worksheets</h2>
+            <p>Rules, practice tasks, and a separate answer key for self-checking at home or in class.</p>
+          </div>
+          <div class="download-actions">
+            <button class="btn secondary" id="worksheetBtn" title="Arbeitsblaetter herunterladen">Arbeitsblaetter</button>
+            <button class="btn secondary" id="answersBtn" title="Loesungsmaterial herunterladen">Loesungen</button>
+          </div>
+        </section>
 
         <article class="task">
           <div class="task-head">
@@ -704,7 +760,7 @@
           solution: "Reading complex articles improves your academic vocabulary. Here, 'Reading complex articles' is the subject."
         },
         {
-          prompt: "Choose the best completion: He apologised for ___ late.",
+          prompt: "Choose the best completion: He apologised for ___ late. (arrive)",
           options: ["arrive", "to arrive", "arriving", "arrived"],
           answer: 2,
           hint: "After a preposition, English normally uses a gerund.",
@@ -749,31 +805,31 @@
       ],
       gap: [
         {
-          prompt: "The committee discussed ___ the deadline by two weeks.",
+          prompt: "The committee discussed ___ the deadline by two weeks. (extend)",
           answer: ["extending"],
           hint: "After 'discuss', use a gerund, not an infinitive.",
           solution: "The committee discussed extending the deadline by two weeks."
         },
         {
-          prompt: "___ by the results, the students changed their revision strategy.",
+          prompt: "___ by the results, the students changed their revision strategy. (disappoint)",
           answer: ["disappointed"],
           hint: "The students felt this; use the past participle.",
           solution: "Disappointed by the results, the students changed their revision strategy."
         },
         {
-          prompt: "She avoided ___ a general statement without evidence.",
+          prompt: "She avoided ___ a general statement without evidence. (make)",
           answer: ["making"],
           hint: "'Avoid' is followed by a gerund.",
           solution: "She avoided making a general statement without evidence."
         },
         {
-          prompt: "___ more carefully, the paragraph would be easier to follow.",
+          prompt: "___ more carefully, the paragraph would be easier to follow. (write)",
           answer: ["written"],
           hint: "The paragraph receives the action.",
           solution: "Written more carefully, the paragraph would be easier to follow."
         },
         {
-          prompt: "There is no point in ___ the same argument twice.",
+          prompt: "There is no point in ___ the same argument twice. (repeat)",
           answer: ["repeating"],
           hint: "The expression is 'There is no point in + gerund'.",
           solution: "There is no point in repeating the same argument twice."
@@ -842,8 +898,8 @@
     };
 
     const endlessTemplates = [
-      () => buildGap("After {prep}, use the gerund: She insisted on ___ the data again.", ["checking"], "After a preposition, use an -ing form.", "She insisted on checking the data again."),
-      () => buildGap("Complete the sentence: I look forward to ___ your presentation.", ["hearing", "seeing"], "'Look forward to' contains 'to' as a preposition.", "I look forward to hearing your presentation."),
+      () => buildGap("After a preposition, use the gerund: She insisted on ___ the data again. (check)", ["checking"], "After a preposition, use an -ing form.", "She insisted on checking the data again."),
+      () => buildGap("Complete the sentence: I look forward to ___ your presentation. (hear)", ["hearing"], "'Look forward to' contains 'to' as a preposition.", "I look forward to hearing your presentation."),
       () => buildChoice("Best version for academic style:", [
         "Because being clearly structured, the essay is convincing.",
         "Clearly structured, the essay is convincing.",
@@ -856,7 +912,7 @@
         "Written carefully, I understood the paragraph.",
         "Having finished, the conclusion was short."
       ], 1, "The subject after the comma must perform the participle action.", "Walking through the text, I found the argument clearer."),
-      () => buildGap("___ the evidence, the speaker changed his position.", ["having considered"], "Use 'Having + past participle' for a completed earlier action.", "Having considered the evidence, the speaker changed his position."),
+      () => buildGap("___ the evidence, the speaker changed his position. (consider)", ["having considered"], "Use 'Having + past participle' for a completed earlier action.", "Having considered the evidence, the speaker changed his position."),
       () => buildChoice("Identify 'challenging' in: 'The challenging task required patience.'", [
         "Gerund",
         "Present participle used as adjective",
@@ -902,7 +958,9 @@
       solutionBtn: document.getElementById("solutionBtn"),
       nextBtn: document.getElementById("nextBtn"),
       resetBtn: document.getElementById("resetBtn"),
-      progressBar: document.getElementById("progressBar")
+      progressBar: document.getElementById("progressBar"),
+      worksheetBtn: document.getElementById("worksheetBtn"),
+      answersBtn: document.getElementById("answersBtn")
     };
 
     function buildGap(prompt, answer, hint, solution) {
@@ -1081,6 +1139,154 @@
       setFeedback("hint", state.current.solution);
     }
 
+    function downloadFile(filename, html) {
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function worksheetHtml() {
+      return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gerunds and Participles - Worksheets</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.45; color: #17202a; margin: 32px; }
+    h1 { margin-bottom: 4px; }
+    h2 { margin-top: 28px; border-bottom: 1px solid #ccd4df; padding-bottom: 5px; }
+    .rule { background: #f2f7f8; border-left: 4px solid #126e82; padding: 10px 12px; margin: 12px 0; }
+    ol { padding-left: 22px; }
+    li { margin: 8px 0; }
+    .name { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 22px 0; }
+    .line { border-bottom: 1px solid #667085; min-height: 24px; }
+    @media print { body { margin: 18mm; } }
+  </style>
+</head>
+<body>
+  <h1>Gerunds and Participles - Practice Worksheets</h1>
+  <p>Use these worksheets for short, focused practice. Write full answers where possible.</p>
+  <div class="name">
+    <div>Name: <span class="line"></span></div>
+    <div>Date: <span class="line"></span></div>
+  </div>
+
+  <h2>1. Gerund</h2>
+  <div class="rule">
+    A gerund is the -ing form used like a noun. Use it after prepositions and after verbs such as avoid, enjoy, consider, suggest, risk and discuss.
+  </div>
+  <p>Complete the sentences with the gerund form of the verb in brackets.</p>
+  <ol>
+    <li>She is interested in __________ different viewpoints. (compare)</li>
+    <li>The author avoids __________ direct evidence. (give)</li>
+    <li>There is no point in __________ the same idea twice. (repeat)</li>
+    <li>The class discussed __________ the introduction clearer. (make)</li>
+    <li>__________ regularly helps students write more fluently. (practise)</li>
+  </ol>
+
+  <h2>2. Present participle</h2>
+  <div class="rule">
+    A present participle is an -ing form that adds information about an action, reason or description. The subject after the comma must logically do the action.
+  </div>
+  <p>Rewrite the sentences with a present participle construction.</p>
+  <ol>
+    <li>She looked at the statistics and changed her conclusion.</li>
+    <li>Because he knew the context, he understood the quote.</li>
+    <li>The students compared both sources and noticed a clear contrast.</li>
+    <li>While I was reading the article, I underlined useful phrases.</li>
+  </ol>
+
+  <h2>3. Past participle</h2>
+  <div class="rule">
+    A past participle often shows that someone or something receives an action. It is useful for concise passive meaning: Written clearly, the essay is convincing.
+  </div>
+  <p>Complete the sentences with the past participle form of the verb in brackets.</p>
+  <ol>
+    <li>__________ in simple language, the argument is easy to follow. (write)</li>
+    <li>__________ by the results, the team changed its plan. (disappoint)</li>
+    <li>__________ from different angles, the problem becomes more complex. (see)</li>
+    <li>__________ in 2024, the report is still relevant. (publish)</li>
+    <li>__________ carefully, the data supports the main claim. (analyse)</li>
+  </ol>
+
+  <h2>4. Mixed practice</h2>
+  <p>Choose gerund, present participle or past participle. Use the verb in brackets.</p>
+  <ol>
+    <li>After __________ the evidence, she changed her position. (consider)</li>
+    <li>__________ by the article, many readers wrote comments. (influence)</li>
+    <li>__________ the graph, the speaker explained the trend. (show)</li>
+    <li>He apologised for __________ too general. (be)</li>
+    <li>__________ in a neutral tone, the paragraph sounds reliable. (write)</li>
+    <li>They improved the essay by __________ more precise examples. (add)</li>
+  </ol>
+</body>
+</html>`;
+    }
+
+    function answersHtml() {
+      return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gerunds and Participles - Answer Key</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.45; color: #17202a; margin: 32px; }
+    h1 { margin-bottom: 4px; }
+    h2 { margin-top: 28px; border-bottom: 1px solid #ccd4df; padding-bottom: 5px; }
+    li { margin: 8px 0; }
+    .note { background: #fff8e8; border-left: 4px solid #a15c07; padding: 10px 12px; }
+    @media print { body { margin: 18mm; } }
+  </style>
+</head>
+<body>
+  <h1>Gerunds and Participles - Answer Key</h1>
+  <p class="note">Some rewrite tasks allow more than one correct version. The key gives clear model answers.</p>
+
+  <h2>1. Gerund</h2>
+  <ol>
+    <li>comparing</li>
+    <li>giving</li>
+    <li>repeating</li>
+    <li>making</li>
+    <li>Practising / Practicing regularly helps students write more fluently.</li>
+  </ol>
+
+  <h2>2. Present participle</h2>
+  <ol>
+    <li>Looking at the statistics, she changed her conclusion.</li>
+    <li>Knowing the context, he understood the quote.</li>
+    <li>Comparing both sources, the students noticed a clear contrast.</li>
+    <li>Reading the article, I underlined useful phrases.</li>
+  </ol>
+
+  <h2>3. Past participle</h2>
+  <ol>
+    <li>Written in simple language, the argument is easy to follow.</li>
+    <li>Disappointed by the results, the team changed its plan.</li>
+    <li>Seen from different angles, the problem becomes more complex.</li>
+    <li>Published in 2024, the report is still relevant.</li>
+    <li>Analysed / Analyzed carefully, the data supports the main claim.</li>
+  </ol>
+
+  <h2>4. Mixed practice</h2>
+  <ol>
+    <li>After considering the evidence, she changed her position.</li>
+    <li>Influenced by the article, many readers wrote comments.</li>
+    <li>Showing the graph, the speaker explained the trend.</li>
+    <li>He apologised for being too general.</li>
+    <li>Written in a neutral tone, the paragraph sounds reliable.</li>
+    <li>They improved the essay by adding more precise examples.</li>
+  </ol>
+</body>
+</html>`;
+    }
+
     function nextTask() {
       if (state.mode !== "endless" && state.mode !== "review") {
         const list = exercises[state.mode];
@@ -1106,6 +1312,8 @@
     els.checkBtn.addEventListener("click", checkAnswer);
     els.solutionBtn.addEventListener("click", showSolution);
     els.nextBtn.addEventListener("click", nextTask);
+    els.worksheetBtn.addEventListener("click", () => downloadFile("gerunds-participles-worksheets.html", worksheetHtml()));
+    els.answersBtn.addEventListener("click", () => downloadFile("gerunds-participles-answer-key.html", answersHtml()));
     els.resetBtn.addEventListener("click", () => {
       state.done = 0;
       state.correct = 0;
